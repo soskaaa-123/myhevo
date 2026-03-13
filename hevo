@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEVO TEAM - Social Media Growth Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--text);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .balance-pill {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.purple { background: rgba(99, 102, 241, 0.2); color: var(--primary); }
+        .stat-icon.pink { background: rgba(236, 72, 153, 0.2); color: var(--secondary); }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .stat-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Services Section */
+        .section {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .service-platform {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .platform-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .twitter { background: #000; border: 1px solid #333; }
+        .youtube { background: #ff0000; }
+        .tiktok { background: #000; border: 1px solid #333; position: relative; }
+        .tiktok::before {
+            content: '♪';
+            position: absolute;
+            text-shadow: 2px 0 #ff0050, -2px 0 #00f2ea;
+        }
+
+        .service-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .service-category {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .service-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .service-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-stat-value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .service-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        /* Order Form Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--darker);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .qty-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .total-box {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .total-label {
+            color: var(--text-muted);
+        }
+
+        .total-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* Recent Orders Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status.processing {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+            backdrop-filter: blur(20px);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .toast.success .toast-icon { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .toast.error .toast-icon { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">H</div>
+                <span>HEVO TEAM</span>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Main</div>
+                <a href="#" class="nav-item active" onclick="showSection('dashboard')">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('services')">
+                    <span>🛒</span> Services
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('orders')">
+                    <span>📋</span> Orders
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('wallet')">
+                    <span>💰</span> Wallet
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Support</div>
+                <a href="#" class="nav-item">
+                    <span>🎫</span> Tickets
+                </a>
+                <a href="#" class="nav-item">
+                    <span>📖</span> API Docs
+                </a>
+                <a href="#" class="nav-item">
+                    <span>⚙️</span> Settings
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back! Here's what's happening today.</p>
+                </div>
+                <div class="user-actions">
+                    <div class="balance-pill">
+                        <span>💎</span>
+                        <span id="userBalance">$1,250.00</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal()">
+                        <span>+</span> New Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon purple">📦</div>
+                        <div class="stat-change positive">+12%</div>
+                    </div>
+                    <div class="stat-value" id="totalOrders">1,284</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon pink">💵</div>
+                        <div class="stat-change positive">+8%</div>
+                    </div>
+                    <div class="stat-value" id="totalSpent">$4,521</div>
+                    <div class="stat-label">Total Spent</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green">✅</div>
+                        <div class="stat-change positive">98%</div>
+                    </div>
+                    <div class="stat-value">99.2%</div>
+                    <div class="stat-label">Completion Rate</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon orange">⏱️</div>
+                        <div class="stat-change positive">-2min</div>
+                    </div>
+                    <div class="stat-value">4m 32s</div>
+                    <div class="stat-label">Avg. Processing</div>
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Popular Services</h2>
+                    <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                        View All
+                    </button>
+                </div>
+                <div class="services-grid" id="servicesGrid">
+                    <!-- Services injected by JS -->
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Orders</h2>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Service</th>
+                                <th>Link</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable">
+                            <!-- Orders injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Order</h2>
+                <button onclick="closeModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select Service</label>
+                    <select class="form-input" id="serviceSelect" onchange="updatePrice()">
+                        <option value="instagram_followers">Instagram Followers - $2.50 per 1k</option>
+                        <option value="instagram_likes">Instagram Likes - $1.20 per 1k</option>
+                        <option value="twitter_followers">Twitter Followers - $3.00 per 1k</option>
+                        <option value="youtube_views">YouTube Views - $2.00 per 1k</option>
+                        <option value="tiktok_followers">TikTok Followers - $2.80 per 1k</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Link</label>
+                    <input type="url" class="form-input" id="linkInput" placeholder="https://instagram.com/username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Quantity</label>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty(-100)">−</button>
+                        <div class="qty-value" id="quantity">1000</div>
+                        <button class="qty-btn" onclick="changeQty(100)">+</button>
+                    </div>
+                </div>
+
+                <div class="total-box">
+                    <div>
+                        <div class="total-label">Total Cost</div>
+                        <div style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            Balance: <span id="modalBalance">$1,250.00</span>
+                        </div>
+                    </div>
+                    <div class="total-value" id="totalCost">$2.50</div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; justify-content: center;" onclick="submitOrder()">
+                    Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">✓</div>
+        <div>
+            <div style="font-weight: 700;" id="toastTitle">Success!</div>
+            <div style="font-size: 0.875rem; color: var(--text-muted);" id="toastMessage">Order placed successfully.</div>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        let balance = 1250.00;
+        let quantity = 1000;
+        const prices = {
+            instagram_followers: 2.50,
+            instagram_likes: 1.20,
+            twitter_followers: 3.00,
+            youtube_views: 2.00,
+            tiktok_followers: 2.80
+        };
+
+        const services = [
+            { id: 1, platform: 'instagram', name: 'Instagram Followers', category: 'Social Media', price: 2.50, min: 100, max: 100000, speed: 'Fast', icon: 'IG' },
+            { id: 2, platform: 'instagram', name: 'Instagram Likes', category: 'Engagement', price: 1.20, min: 50, max: 50000, speed: 'Instant', icon: '♥' },
+            { id: 3, platform: 'twitter', name: 'Twitter Followers', category: 'Social Media', price: 3.00, min: 100, max: 50000, speed: 'Normal', icon: 'X' },
+            { id: 4, platform: 'youtube', name: 'YouTube Views', category: 'Video', price: 2.00, min: 1000, max: 1000000, speed: 'Slow', icon: '▶' },
+            { id: 5, platform: 'tiktok', name: 'TikTok Followers', category: 'Social Media', price: 2.80, min: 100, max: 100000, speed: 'Fast', icon: '♪' },
+            { id: 6, platform: 'instagram', name: 'Instagram Views', category: 'Video', price: 0.80, min: 100, max: 1000000, speed: 'Instant', icon: '👁' }
+        ];
+
+        const orders = [
+            { id: '#ORD-7842', service: 'Instagram Followers', link: 'instagram.com/user1', quantity: 5000, status: 'completed', date: '2026-03-13' },
+            { id: '#ORD-7841', service: 'YouTube Views', link: 'youtube.com/watch?v=...', quantity: 10000, status: 'processing', date: '2026-03-12' },
+            { id: '#ORD-7840', service: 'Twitter Followers', link: 'twitter.com/user2', quantity: 2500, status: 'pending', date: '2026-03-12' },
+            { id: '#ORD-7839', service: 'Instagram Likes', link: 'instagram.com/p/...', quantity: 1000, status: 'completed', date: '2026-03-11' }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderServices();
+            renderOrders();
+            updatePrice();
+        });
+
+        // Render Services
+        function renderServices() {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = services.map(service => `
+                <div class="service-card" onclick="selectService('${service.id}')">
+                    <div class="price-tag">$${service.price} per 1k</div>
+                    <div class="service-platform">
+                        <div class="platform-icon ${service.platform}">${service.icon}</div>
+                        <div>
+                            <div class="service-name">${service.name}</div>
+                            <div class="service-category">${service.category}</div>
+                        </div>
+                    </div>
+                    <div class="service-stats">
+                        <div class="service-stat">
+                            <div class="service-stat-value">${service.min}-${service.max}</div>
+                            <div class="service-stat-label">Min-Max</div>
+                        </div>
+                        <div class="service-stat">
+                            <div class="service-stat-value">${service.speed}</div>
+                            <div class="service-stat-label">Speed</div>
+                        </div>
+                        <div class="service-stat">
+                            <div class="service-stat-value">99%</div>
+                            <div class="service-stat-label">Quality</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Orders
+        function renderOrders() {
+            const tbody = document.getElementById('ordersTable');
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td><strong>${order.id}</strong></td>
+                    <td>${order.service}</td>
+                    <td style="color: var(--text-muted); font-size: 0.875rem;">${order.link}</td>
+                    <td>${order.quantity.toLocaleString()}</td>
+                    <td><span class="status ${order.status}">${order.status}</span></td>
+                    <td style="color: var(--text-muted);">${order.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('orderModal').classList.add('active');
+            document.getElementById('modalBalance').textContent = `$${balance.toFixed(2)}`;
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+        }
+
+        function selectService(serviceId) {
+            openModal();
+            document.getElementById('serviceSelect').value = services.find(s => s.id == serviceId)?.platform + '_followers' || 'instagram_followers';
+            updatePrice();
+        }
+
+        function changeQty(delta) {
+            quantity = Math.max(100, quantity + delta);
+            document.getElementById('quantity').textContent = quantity;
+            updatePrice();
+        }
+
+        function updatePrice() {
+            const service = document.getElementById('serviceSelect').value;
+            const price = prices[service] || 2.50;
+            const total = (quantity / 1000) * price;
+            document.getElementById('totalCost').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function submitOrder() {
+            const service = document.getElementById('serviceSelect');
+            const serviceText = service.options[service.selectedIndex].text.split(' - ')[0];
+            const link = document.getElementById('linkInput').value;
+            const total = parseFloat(document.getElementById('totalCost').textContent.replace('$', ''));
+
+            if (!link) {
+                showToast('Error', 'Please enter a valid link', 'error');
+                return;
+            }
+
+            if (total > balance) {
+                showToast('Error', 'Insufficient balance', 'error');
+                return;
+            }
+
+            // Deduct balance
+            balance -= total;
+            document.getElementById('userBalance').textContent = `$${balance.toFixed(2)}`;
+
+            // Add order
+            const newOrder = {
+                id: `#ORD-${7843 + orders.length}`,
+                service: serviceText,
+                link: link,
+                quantity: quantity,
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0]
+            };
+            orders.unshift(newOrder);
+            renderOrders();
+
+            // Update stats
+            document.getElementById('totalOrders').textContent = (1284 + orders.length).toLocaleString();
+
+            closeModal();
+            showToast('Success!', `Order placed for ${quantity} ${serviceText}`, 'success');
+            
+            // Reset form
+            document.getElementById('linkInput').value = '';
+            quantity = 1000;
+            document.getElementById('quantity').textContent = quantity;
+            updatePrice();
+        }
+
+        function showToast(title, message, type) {
+            const toast = document.getElementById('toast');
+            toast.className = `toast ${type}`;
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            document.querySelector('.toast-icon').textContent = type === 'success' ? '✓' : '✕';
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+            showToast('Info', `${section.charAt(0).toUpperCase() + section.slice(1)} section loaded`, 'success');
+        }
+
+        // Close modal on outside click
+        document.getElementById('orderModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+    </script>
+</body>
+</html>
